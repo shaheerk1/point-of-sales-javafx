@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Font?>
+
+<JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="150.0" minWidth="150.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #6c707b;" textFill="WHITE" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <font>
+      <Font size="40.0" />
+   </font>
+   <graphic>
+      <ImageView fitHeight="98.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/cash-01.png" />
+         </image>
+      </ImageView>
+   </graphic>
+</JFXButton>
