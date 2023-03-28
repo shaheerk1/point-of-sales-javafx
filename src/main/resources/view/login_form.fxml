@@ -36,9 +36,14 @@
                      <children>
                         <Pane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Label layoutX="205.0" layoutY="163.0" text="Lorem IpsumDor" textFill="WHITE">
+                              <Label layoutX="205.0" layoutY="163.0" text="Target Homes" textFill="WHITE">
                                  <font>
                                     <Font name="SansSerif Bold" size="25.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="207.0" layoutY="203.0" text="Your #1 place for all your Household Electricals" textFill="WHITE">
+                                 <font>
+                                    <Font name="SansSerif Bold" size="12.0" />
                                  </font>
                               </Label>
                            </children>
@@ -106,7 +111,7 @@
                                              <children>
                                                 <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                                    <children>
-                                                      <JFXTextField layoutX="128.0" layoutY="29.0" promptText="username" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0">
+                                                      <JFXTextField fx:id="userNameField" layoutX="128.0" layoutY="29.0" promptText="username" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0">
                                                          <font>
                                                             <Font name="Roboto Regular" size="13.0" />
                                                          </font>
@@ -115,7 +120,7 @@
                                                 </AnchorPane>
                                                 <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                                                    <children>
-                                                      <JFXTextField layoutX="67.0" layoutY="30.0" promptText="password" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
+                                                      <JFXTextField fx:id="passwordField" layoutX="67.0" layoutY="30.0" promptText="password" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
                                                          <font>
                                                             <Font size="13.0" />
                                                          </font>
@@ -137,7 +142,7 @@
                                     </AnchorPane>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                                        <children>
-                                          <JFXButton layoutX="502.0" layoutY="23.0" style="-fx-background-color: #EE5C45;" text="Guest Account" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="10.0">
+                                          <JFXButton layoutX="502.0" layoutY="23.0" style="-fx-background-color: #EE5C45;" text="Guest Mode" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="10.0">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
