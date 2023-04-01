@@ -1,13 +1,22 @@
 package lk.target.controller;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Window;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -46,7 +55,13 @@ public class DashboardController implements Initializable {
 
     @FXML
     private AnchorPane quickSlectionPane;
+    @FXML
+    private AnchorPane parentPane;
 
+    private MenuController menuctl;
+
+    @FXML
+    private JFXButton menuBtn;
     List<AnchorPane> quickOptions= new ArrayList<>();
     List<Node> quickNodes= new ArrayList<>();
 
@@ -54,6 +69,11 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
+
+
+
         quickOptions.add(quickBtn1);
         quickOptions.add(quickBtn2);
         quickOptions.add(quickBtn3);
@@ -222,6 +242,40 @@ public class DashboardController implements Initializable {
     }
     public void addFavFunc() {
         quickSlectionPane.setVisible(true);
+
+    }
+    @FXML
+    void openMenuBtn(ActionEvent event) throws IOException {
+
+        FXMLLoader fxmlLoader  =  new FXMLLoader(getClass().getResource("/view/menu_form.fxml"));
+        Parent root  =  fxmlLoader.load();
+
+
+        Scene scene = menuBtn.getScene();
+
+        Window window = scene.getWindow();
+
+        double windowWidth = window.getWidth();
+        menuctl = ((MenuController)(fxmlLoader.getController()));
+        menuctl.initData(parentPane);
+
+
+        root.minWidth(windowWidth);
+
+        root.translateYProperty().set(- (scene.getHeight()));
+        parentPane.getChildren().add(root);
+
+
+
+
+        Timeline timeline = new Timeline();
+        KeyValue kv= new KeyValue(root.translateYProperty(),0, Interpolator.EASE_IN);
+        KeyFrame kf = new KeyFrame(Duration.seconds(0.3),kv);
+        timeline.getKeyFrames().add(kf);
+//        timeline.setOnFinished(event2 ->{
+//            parentPane.getChildren().removeIf(node -> node != root);
+//        });
+        timeline.play();
 
     }
 }
