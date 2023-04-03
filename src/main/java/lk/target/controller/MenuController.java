@@ -5,14 +5,23 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
 
@@ -28,7 +37,12 @@ public class MenuController implements Initializable {
     private AnchorPane parentPane;
 
     @FXML
+    private Label dashboardLbl;
+
+
+    @FXML
     private AnchorPane menuAnchorPane;
+
 
     @FXML
     private AnchorPane menuInnerAnchorPane;
@@ -59,6 +73,35 @@ public class MenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        menuAnchorPane.sceneProperty().addListener((observable, oldScene, newScene) -> {
+            if (newScene != null) {
+//                System.out.println(parentPane.getScene()); // Prints the Scene
+                EventHandler<KeyEvent> keyEventHandler = new MyKeyEventHandler();
+                menuAnchorPane.getScene().setOnKeyPressed(keyEventHandler);
+
+                parentPane.widthProperty().addListener((obs1, oldVal1, newVal1) -> {
+                    // Get the height of the AnchorPane
+                    double anchorPaneWidth = parentPane.getWidth();
+
+                    // Get the height of the Button
+                    double buttonWidth= dashBtn.getWidth();
+
+                    // Calculate the y-coordinate to center the Button vertically
+                    double buttonLayoutY = (anchorPaneWidth - buttonWidth) / 2;
+
+                    System.out.println(anchorPaneWidth+" "+buttonWidth);
+                    // Set the layoutY property of the Button
+                    dashBtn.setLayoutX(buttonLayoutY);
+
+                    double lblWidth= dashboardLbl.getWidth();
+                    double lblLayoutX = (anchorPaneWidth - lblWidth) / 2;
+                    dashboardLbl.setLayoutX(lblLayoutX);
+                });
+            }
+        });
+
+
         menuAnchorPane.parentProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
 
@@ -71,6 +114,8 @@ public class MenuController implements Initializable {
                     menuAnchorPane.setMinWidth(windowWidth);
                     AnchorPane.setLeftAnchor(menuAnchorPane, 0.0);
                     AnchorPane.setRightAnchor(menuAnchorPane, 0.0);
+                    AnchorPane.setTopAnchor(menuAnchorPane, 0.0);
+                    AnchorPane.setBottomAnchor(menuAnchorPane, 0.0);
                     menuGridPane.setMinWidth(windowWidth);
                     AnchorPane.setLeftAnchor(menuInnerAnchorPane, 0.0);
                     AnchorPane.setRightAnchor(menuInnerAnchorPane, 0.0);
@@ -78,6 +123,8 @@ public class MenuController implements Initializable {
 
             }
         });
+
+
 
         // Listen for changes to the width of the parent container
 //        AnchorPane parent = (AnchorPane)menuAnchorPane.getParent();
@@ -88,16 +135,26 @@ public class MenuController implements Initializable {
 //        });
     }
 
+    private class MyKeyEventHandler implements EventHandler<KeyEvent> {
 
-    public void setWidth(double windowWidth) {
-//        System.out.println(windowWidth);
-//        menuAnchorPane.setPrefWidth(windowWidth);
-//        AnchorPane.setLeftAnchor(menuAnchorPane, 0.0);
-//        AnchorPane.setRightAnchor(menuAnchorPane, 0.0);
-//        menuGridPane.setPrefWidth(windowWidth);
-//        AnchorPane.setLeftAnchor(menuInnerAnchorPane, 0.0);
-//        AnchorPane.setRightAnchor(menuInnerAnchorPane, 0.0);
-//        menuInnerAnchorPane.setPrefWidth(windowWidth);
+        @Override
+        public void handle(KeyEvent event) {
+            if (event.getCode() == KeyCode.A) {
+                // Handle ESC key press
+                System.out.println("A pressed");
+            } else {
+                System.out.println("Key pressed: " + event.getCode().toString());
+            }
+        }
+    }
+    @FXML
+    void onItemClick(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
 
+        Parent root  =  FXMLLoader.load(getClass().getResource("/view/item_form.fxml"));
+        stage.setScene(new Scene(root));
+
+        stage.show();
     }
 }

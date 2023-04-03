@@ -24,6 +24,7 @@ public class AppInitializer extends Application {
         stage.setResizable(true);
         stage.setTitle("Target");
         stage.centerOnScreen();
+        stage.setFullScreen(false);
         stage.show();
     }
 }
