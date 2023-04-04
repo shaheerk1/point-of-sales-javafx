@@ -77,8 +77,8 @@ public class MenuController implements Initializable {
         menuAnchorPane.sceneProperty().addListener((observable, oldScene, newScene) -> {
             if (newScene != null) {
 //                System.out.println(parentPane.getScene()); // Prints the Scene
-                EventHandler<KeyEvent> keyEventHandler = new MyKeyEventHandler();
-                menuAnchorPane.getScene().setOnKeyPressed(keyEventHandler);
+//                EventHandler<KeyEvent> keyEventHandler = new MyKeyEventHandler();
+//                menuAnchorPane.getScene().setOnKeyPressed(keyEventHandler);
 
                 parentPane.widthProperty().addListener((obs1, oldVal1, newVal1) -> {
                     // Get the height of the AnchorPane
@@ -156,5 +156,9 @@ public class MenuController implements Initializable {
         stage.setScene(new Scene(root));
 
         stage.show();
+    }
+
+    public static void openItemForm(){
+
     }
 }

@@ -17,6 +17,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Window;
@@ -78,8 +80,8 @@ public class DashboardController implements Initializable {
         parentPane.sceneProperty().addListener((observable, oldScene, newScene) -> {
             if (newScene != null) {
 //                System.out.println(parentPane.getScene()); // Prints the Scene
-//                EventHandler<KeyEvent> keyEventHandler = new MyKeyEventHandler();
-//                parentPane.getScene().setOnKeyPressed(keyEventHandler);
+                EventHandler<KeyEvent> keyEventHandler = new MyKeyEventHandler();
+                parentPane.getScene().setOnKeyPressed(keyEventHandler);
 
                 parentPane.widthProperty().addListener((obs1, oldVal1, newVal1) -> {
                     // Get the height of the AnchorPane
@@ -150,12 +152,17 @@ public class DashboardController implements Initializable {
     }
     private class MyKeyEventHandler implements EventHandler<KeyEvent> {
 
+        final KeyCombination keyCombinationShiftC = new KeyCodeCombination(
+                KeyCode.C, KeyCombination.CONTROL_DOWN);
         @Override
         public void handle(KeyEvent event) {
             if (event.getCode() == KeyCode.A) {
                 // Handle ESC key press
                 System.out.println("A pressed");
-            } else {
+            } else if(keyCombinationShiftC.match(event)){
+                System.out.println("Key pressed: " + "CTRL + C Pressed");
+
+            }else {
                 System.out.println("Key pressed: " + event.getCode().toString());
             }
         }
@@ -334,7 +341,7 @@ public class DashboardController implements Initializable {
 
         Timeline timeline = new Timeline();
         KeyValue kv= new KeyValue(root.translateYProperty(),0, Interpolator.EASE_IN);
-        KeyFrame kf = new KeyFrame(Duration.seconds(0.3),kv);
+        KeyFrame kf = new KeyFrame(Duration.seconds(0.2),kv);
         timeline.getKeyFrames().add(kf);
 //        timeline.setOnFinished(event2 ->{
 //            parentPane.getChildren().removeIf(node -> node != root);

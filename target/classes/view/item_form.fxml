@@ -77,8 +77,8 @@
                                                 <Font size="23.0" />
                                              </font>
                                           </Label>
-                                          <JFXTextField prefHeight="45.0" prefWidth="471.0" GridPane.columnIndex="1" />
-                                          <JFXButton prefHeight="129.0" prefWidth="292.0" style="-fx-background-color: lightgreen;" text="Search" textFill="WHITE" GridPane.columnIndex="2">
+                                          <JFXTextField fx:id="itemCodeForSearch" onAction="#itemSearchFieldAction" prefHeight="45.0" prefWidth="471.0" GridPane.columnIndex="1" />
+                                          <JFXButton onAction="#onItemSearchBtn" prefHeight="129.0" prefWidth="292.0" style="-fx-background-color: #033631;" text="Search" textFill="WHITE" GridPane.columnIndex="2">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -100,12 +100,12 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <JFXTextField disable="true" prefHeight="64.0" prefWidth="636.0">
+                                          <JFXTextField fx:id="newItemCodeField" disable="true" prefHeight="64.0" prefWidth="636.0">
                                              <padding>
                                                 <Insets left="15.0" />
                                              </padding>
                                           </JFXTextField>
-                                          <JFXTextField disable="true" prefHeight="64.0" prefWidth="636.0" promptText="Name" GridPane.rowIndex="1">
+                                          <JFXTextField fx:id="itemName" disable="true" prefHeight="64.0" prefWidth="636.0" promptText="Name" GridPane.rowIndex="1">
                                              <font>
                                                 <Font size="20.0" />
                                              </font>
@@ -113,7 +113,7 @@
                                                 <Insets left="15.0" />
                                              </padding>
                                           </JFXTextField>
-                                          <JFXTextField disable="true" prefHeight="64.0" prefWidth="636.0" promptText="Price" GridPane.rowIndex="2">
+                                          <JFXTextField fx:id="itemQty" disable="true" prefHeight="64.0" prefWidth="636.0" promptText="Qty On Hand" GridPane.rowIndex="2">
                                              <padding>
                                                 <Insets left="15.0" />
                                              </padding>
@@ -121,7 +121,7 @@
                                                 <Font size="20.0" />
                                              </font>
                                           </JFXTextField>
-                                          <JFXTextField disable="true" prefHeight="64.0" prefWidth="636.0" promptText="Description" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                          <JFXTextField fx:id="itemDesc" disable="true" prefHeight="64.0" prefWidth="636.0" promptText="Description" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                              <padding>
                                                 <Insets left="15.0" />
                                              </padding>
@@ -129,19 +129,38 @@
                                                 <Font size="20.0" />
                                              </font>
                                           </JFXTextField>
-                                          <JFXTextField disable="true" prefHeight="64.0" prefWidth="636.0" promptText="Qty On Hand" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                             <padding>
-                                                <Insets left="15.0" />
-                                             </padding>
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                          </JFXTextField>
-                                          <JFXButton prefHeight="48.0" prefWidth="188.0" style="-fx-background-color: orange;" text="New Item" textFill="WHITE" GridPane.columnIndex="1">
+                                          <JFXButton fx:id="newItemBtn" onAction="#newItemClick" prefHeight="48.0" prefWidth="188.0" style="-fx-background-color: #3D6763;" text="New Item" textFill="WHITE" GridPane.columnIndex="1">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </JFXButton>
+                                          <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="285.0" minWidth="10.0" prefWidth="61.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="529.0" minWidth="10.0" prefWidth="529.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <JFXTextField fx:id="itemPrice" disable="true" prefHeight="63.0" prefWidth="471.0" promptText="Price" GridPane.columnIndex="1">
+                                                   <padding>
+                                                      <Insets left="15.0" />
+                                                   </padding>
+                                                   <font>
+                                                      <Font size="20.0" />
+                                                   </font>
+                                                </JFXTextField>
+                                                <Label disable="true" prefHeight="149.0" prefWidth="206.0" text="Rs.">
+                                                   <padding>
+                                                      <Insets left="15.0" />
+                                                   </padding>
+                                                   <font>
+                                                      <Font size="20.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </GridPane>
                                        </children>
                                     </GridPane>
                                  </children>
@@ -158,12 +177,12 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <JFXButton disable="true" prefHeight="93.0" prefWidth="414.0" style="-fx-background-color: lightgreen;" text="ADD" textFill="WHITE" GridPane.columnIndex="2">
+                                          <JFXButton fx:id="addBtn" disable="true" onAction="#addBtnClick" prefHeight="93.0" prefWidth="414.0" style="-fx-background-color: #1CA1F0;" text="ADD" textFill="WHITE" GridPane.columnIndex="2">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton disable="true" prefHeight="95.0" prefWidth="197.0" style="-fx-background-color: yellow;" text="Update" textFill="WHITE" GridPane.columnIndex="1">
+                                          <JFXButton fx:id="updateBtn" disable="true" onAction="#updBtnClick" prefHeight="95.0" prefWidth="197.0" style="-fx-background-color: #6C707B;" text="Edit" textFill="WHITE" GridPane.columnIndex="1">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -178,8 +197,11 @@
                   </AnchorPane>
                   <TableView prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
+                      <TableColumn prefWidth="97.0" text="code" />
+                      <TableColumn prefWidth="273.0" text="name" />
+                        <TableColumn prefWidth="525.0" text="description" />
+                        <TableColumn prefWidth="105.0" text="qty on hand" />
+                        <TableColumn prefWidth="219.0" text="price" />
                     </columns>
                      <GridPane.margin>
                         <Insets bottom="10.0" left="20.0" right="20.0" top="5.0" />

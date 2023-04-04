@@ -1,0 +1,67 @@
+package lk.target.model;
+
+import lk.target.dto.ItemDTO;
+import lk.target.util.CrudUtil;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class ItemModel {
+
+    public static ItemDTO searchItem(String itemCode) throws SQLException {
+        String sql = "SELECT * FROM Item WHERE ItemCode = ?";
+
+        ResultSet rs = CrudUtil.execute(sql,itemCode);
+
+        if (rs.next()){
+            ItemDTO itemDTO = new ItemDTO(
+                    rs.getString(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getInt(5),
+                    rs.getDouble(4)
+            );
+            return itemDTO;
+        }else {
+            return null;
+        }
+
+    }
+
+    public static String getNewItemCode() throws SQLException {
+        String sql = "SELECT ItemCode FROM Item ORDER BY ItemCode DESC LIMIT 1";
+
+        ResultSet rs = CrudUtil.execute(sql);
+
+        if (rs.next()){
+            return splitItemId(rs.getString(1));
+        }
+        return splitItemId(null);
+    }
+    public static String splitItemId(String currentItemId) {
+        if(currentItemId != null) {
+            String[] strings = currentItemId.split("P0");
+            int id = Integer.parseInt(strings[1]);
+            id++;
+
+            return "P0"+id;
+        }
+        return "O001";
+    }
+
+    public static Boolean saveItem(ItemDTO itemDTO) throws SQLException {
+        String sql = "INSERT INTO Item(ItemCode, name, description,qtyonhand, unitprice) VALUES(?,?,?,?,?)";
+
+       return CrudUtil.execute(sql, itemDTO.getItemCode(),itemDTO.getName(),itemDTO.getDescription(),itemDTO.getQty(),itemDTO.getPrice());
+
+
+    }
+
+    public static Boolean updateItem(ItemDTO itemDTO) throws SQLException {
+        String sql = "UPDATE Item SET name = ?, description = ?, qtyonhand = ?, unitprice = ? WHERE ItemCode = ?";
+
+
+        return CrudUtil.execute(sql,itemDTO.getName(),itemDTO.getDescription(),itemDTO.getQty(),itemDTO.getPrice(), itemDTO.getItemCode());
+
+    }
+}
