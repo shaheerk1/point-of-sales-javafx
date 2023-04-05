@@ -12,8 +12,13 @@ public class AppInitializer extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
+
+
         Parent root  =  FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
-        stage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+
+
 
         //Both ways are correct
 

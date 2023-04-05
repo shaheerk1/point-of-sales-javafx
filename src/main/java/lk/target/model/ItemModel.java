@@ -1,10 +1,13 @@
 package lk.target.model;
 
 import lk.target.dto.ItemDTO;
+import lk.target.dto.tm.ItemTM;
 import lk.target.util.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemModel {
 
@@ -62,6 +65,37 @@ public class ItemModel {
 
 
         return CrudUtil.execute(sql,itemDTO.getName(),itemDTO.getDescription(),itemDTO.getQty(),itemDTO.getPrice(), itemDTO.getItemCode());
+
+    }
+
+    public static List<ItemTM> getAllItems() throws SQLException {
+        String sql = "SELECT * FROM Item";
+        ResultSet rs = CrudUtil.execute(sql);
+
+        List<ItemTM> itemsList = new ArrayList<>();
+
+            while (rs.next()){
+                ItemTM itemTM = new ItemTM(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getInt(5),
+                        rs.getDouble(4)
+                );
+                itemsList.add(itemTM);
+
+            }
+            return itemsList;
+
+
+
+    }
+
+    public static Boolean deleteItem(String code) throws SQLException {
+        String sql = "DELETE FROM Item WHERE ItemCode = ?";
+
+
+        return CrudUtil.execute(sql,code);
 
     }
 }

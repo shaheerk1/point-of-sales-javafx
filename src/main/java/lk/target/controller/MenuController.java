@@ -153,9 +153,9 @@ public class MenuController implements Initializable {
         Stage stage = (Stage) node.getScene().getWindow();
 
         Parent root  =  FXMLLoader.load(getClass().getResource("/view/item_form.fxml"));
-        stage.setScene(new Scene(root));
-
-        stage.show();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        scene.getStylesheets().add(getClass().getResource("/style/TableStyles.css").toExternalForm());
     }
 
     public static void openItemForm(){

@@ -1,0 +1,12 @@
+.itemTable {
+    -fx-background-color: #F5F5F5;
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+
+
+}
+
+.itemTable .column-header {
+    -fx-background-color: #E0E0E0;
+    -fx-font-weight: bold;
+}

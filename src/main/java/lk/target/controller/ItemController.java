@@ -2,15 +2,32 @@ package lk.target.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import lk.target.dto.ItemDTO;
+import lk.target.dto.tm.ItemTM;
 import lk.target.model.ItemModel;
 
+import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
-public class ItemController {
+public class ItemController implements Initializable {
     @FXML
     private JFXTextField itemCodeForSearch;
 
@@ -38,10 +55,15 @@ public class ItemController {
     @FXML
     private JFXButton updateBtn;
 
-
+    @FXML
+    private TableView<ItemTM> itemTable;
+    private ObservableList<ItemTM> obList = FXCollections.observableArrayList();
+    private List<ItemTM> itemsList = new ArrayList<>();
     @FXML
     void onItemSearchBtn(ActionEvent event) {
 
+
+        deleteBtn.setDisable(false);
         updateBtn.setDisable(true);
         addBtn.setDisable(true);
         itemName.setDisable(true);
@@ -98,6 +120,9 @@ public class ItemController {
             Boolean saved = ItemModel.saveItem(itemDTO);
             if (saved){
                 new Alert(Alert.AlertType.INFORMATION, "Item Added!").show();
+                getAllItems();
+                itemTable.refresh();
+                deleteBtn.setDisable(true);
                 newItemBtn.setText("New Item");
                 addBtn.setDisable(true);
                 itemName.setDisable(true);
@@ -118,6 +143,7 @@ public class ItemController {
 
     @FXML
     void newItemClick(ActionEvent event) {
+        deleteBtn.setDisable(true);
 
         if (newItemBtn.getText().equalsIgnoreCase("new item")){
             updateBtn.setDisable(true);
@@ -181,6 +207,8 @@ public class ItemController {
                     updateBtn.setDisable(true);
                     itemCodeForSearch.setDisable(false);
                     new Alert(Alert.AlertType.INFORMATION, "Item "+itemDTO.getItemCode()+" has updated Successfully!").show();
+                    getAllItems();
+                    itemTable.refresh();
                 }else {
                     new Alert(Alert.AlertType.ERROR, "Update failed. Try again!").show();
                 }
@@ -192,4 +220,99 @@ public class ItemController {
 
     }
 
+
+    @FXML
+    void onBack(ActionEvent event) throws IOException {
+
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        Parent root  =  FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
+        stage.setScene(new Scene(root));
+    }
+
+    @FXML
+    JFXButton deleteBtn;
+
+    @FXML
+    void onDeleteClick(ActionEvent event) {
+
+        try {
+            Boolean deleted = ItemModel.deleteItem(itemCodeForSearch.getText());
+            if (deleted){
+                new Alert(Alert.AlertType.INFORMATION, "Deleted!").show();
+                getAllItems();
+                itemTable.refresh();
+            }else {
+                new Alert(Alert.AlertType.ERROR, "Couldn't Delete item").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+        }
+
+        deleteBtn.setDisable(true);
+
+
+    }
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        addBtn.sceneProperty().addListener((observable, oldScene, newScene) -> {
+            if (newScene != null) {
+                Scene scene = addBtn.getScene();
+                scene.getStylesheets().add(getClass().getResource("/style/TableStyles.css").toExternalForm());
+            }
+        });
+
+
+
+        setCellValueFactory();
+        getAllItems();
+
+
+    }
+
+    private void getAllItems() {
+        obList.clear();
+        try {
+            itemsList = ItemModel.getAllItems();
+            if (itemsList.size() != 0){
+                for(ItemTM item: itemsList){
+                    System.out.println(item.getItemCode());
+                    obList.add(item);
+                    itemTable.setItems(obList);
+
+                }
+            }else {
+                //no Items in db
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to get Items from database!").show();
+        }
+    }
+
+    @FXML
+    private TableColumn<?, ?> colItemCode;
+
+    @FXML
+    private TableColumn<?, ?> colItemName;
+
+    @FXML
+    private TableColumn<?, ?> colItemDescription;
+
+    @FXML
+    private TableColumn<?, ?> colItemQty;
+
+    @FXML
+    private TableColumn<?, ?> colItemPrice;
+
+    void setCellValueFactory() {
+        colItemCode.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
+        colItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colItemDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colItemQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        colItemPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+    }
 }
