@@ -315,4 +315,13 @@ public class ItemController implements Initializable {
         colItemQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
         colItemPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
     }
+
+    public void combCusOnAction(ActionEvent actionEvent) {
+    }
+
+    public void combItemOnAction(ActionEvent actionEvent) {
+    }
+
+    public void placeOrderClick(ActionEvent actionEvent) {
+    }
 }

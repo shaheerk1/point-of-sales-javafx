@@ -14,7 +14,7 @@ public class AppInitializer extends Application {
 
 
 
-        Parent root  =  FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
+        Parent root  =  FXMLLoader.load(getClass().getResource("/view/login_form.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
 

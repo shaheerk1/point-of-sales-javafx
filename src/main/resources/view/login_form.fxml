@@ -111,7 +111,7 @@
                                              <children>
                                                 <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                                    <children>
-                                                      <JFXTextField fx:id="userNameField" layoutX="128.0" layoutY="29.0" promptText="username" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0">
+                                                      <JFXTextField fx:id="userNameField" layoutX="128.0" layoutY="29.0" promptText="username" text="john@e01" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0">
                                                          <font>
                                                             <Font name="Roboto Regular" size="13.0" />
                                                          </font>

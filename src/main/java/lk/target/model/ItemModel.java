@@ -4,6 +4,8 @@ import lk.target.dto.ItemDTO;
 import lk.target.dto.tm.ItemTM;
 import lk.target.util.CrudUtil;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -97,5 +99,35 @@ public class ItemModel {
 
         return CrudUtil.execute(sql,code);
 
+    }
+
+    public static List<String> getCodes() throws SQLException {
+
+        List<String> codes = new ArrayList<>();
+
+        String sql = "SELECT ItemCode FROM Item";
+        ResultSet resultSet =CrudUtil.execute(sql);
+        while(resultSet.next()) {
+            codes.add(resultSet.getString(1));
+        }
+        return codes;
+    }
+
+    public static ItemDTO searchById(String code) throws SQLException {
+        String sql = "SELECT * FROM Item WHERE ItemCode = ?";
+
+
+
+        ResultSet resultSet = CrudUtil.execute(sql, code);
+        if(resultSet.next()) {
+            return new ItemDTO(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getInt(4),
+                    resultSet.getDouble(5)
+            );
+        }
+        return null;
     }
 }

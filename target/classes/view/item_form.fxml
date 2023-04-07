@@ -203,7 +203,7 @@
                                                 <Font size="14.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton fx:id="deleteBtn" contentDisplay="CENTER" disable="true" onAction="#onDeleteClick" prefHeight="46.0" prefWidth="65.0" style="-fx-background-color: #EE5C45;" text="Button" GridPane.columnIndex="1">
+                                          <JFXButton fx:id="deleteBtn" contentDisplay="CENTER" disable="true" onAction="#onDeleteClick" prefHeight="46.0" prefWidth="65.0" style="-fx-background-color: #EE5C45;" GridPane.columnIndex="1">
                                              <graphic>
                                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>

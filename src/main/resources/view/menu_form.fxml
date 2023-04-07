@@ -59,7 +59,7 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <JFXButton prefHeight="170.0" prefWidth="170.0" style="-fx-background-color: #033630;" text="Place Order" textFill="WHITE" />
+                                          <JFXButton onAction="#onPlaceOrderClick" prefHeight="170.0" prefWidth="170.0" style="-fx-background-color: #033630;" text="Place Order" textFill="WHITE" />
                                           <JFXButton prefHeight="170.0" prefWidth="170.0" style="-fx-background-color: #033630;" text="Customers" textFill="WHITE" GridPane.columnIndex="1" />
                                           <JFXButton prefHeight="170.0" prefWidth="170.0" style="-fx-background-color: #033630;" text="Supply" textFill="WHITE" GridPane.columnIndex="2" />
                                           <JFXButton prefHeight="170.0" prefWidth="170.0" style="-fx-background-color: #033630;" text="Returns" textFill="WHITE" GridPane.columnIndex="3" />

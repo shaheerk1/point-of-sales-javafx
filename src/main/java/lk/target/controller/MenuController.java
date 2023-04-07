@@ -158,6 +158,15 @@ public class MenuController implements Initializable {
         scene.getStylesheets().add(getClass().getResource("/style/TableStyles.css").toExternalForm());
     }
 
+    @FXML
+    void onPlaceOrderClick(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        Parent root  =  FXMLLoader.load(getClass().getResource("/view/order_form.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+    }
     public static void openItemForm(){
 
     }
