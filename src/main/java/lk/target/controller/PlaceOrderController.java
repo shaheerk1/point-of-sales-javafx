@@ -7,19 +7,27 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import lk.target.dto.ItemDTO;
+import lk.target.dto.tm.CartDTO;
 import lk.target.dto.tm.PlaceOrderTM;
 import lk.target.model.CustomerModel;
 import lk.target.model.ItemModel;
 import lk.target.model.OrderModel;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -127,6 +135,34 @@ public class PlaceOrderController implements Initializable {
 
         qtyField.setText("");
     }
+
+    @FXML
+    void btnPlaceOrderOnAction(ActionEvent event) {
+        String oId = orderIdLbl.getText();
+        String cusId = cusComboBox.getValue();
+
+        List<CartDTO> cartDTOList = new ArrayList<>();
+
+        for (int i = 0; i < orderTable.getItems().size(); i++) {
+            PlaceOrderTM tm = obList.get(i);
+
+            CartDTO cartDTO = new CartDTO(tm.getCode(), tm.getQty(), tm.getPrice());
+            cartDTOList.add(cartDTO);
+        }
+
+        try {
+            boolean isPlaced = OrderModel.placeOrder(oId, cusId, cartDTOList);
+            if(isPlaced) {
+                new Alert(Alert.AlertType.CONFIRMATION, "Order Placed!").show();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Order Not Placed!").show();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+        }
+    }
+
     private void calculateNetTotal() {
         double netTotal = 0.0;
         for (int i = 0; i < orderTable.getItems().size(); i++) {
@@ -168,8 +204,12 @@ public class PlaceOrderController implements Initializable {
     }
 
     @FXML
-    void onBack(ActionEvent event) {
+    void onBack(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
 
+        Parent root  =  FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
+        stage.setScene(new Scene(root));
     }
 
     @FXML
@@ -177,10 +217,7 @@ public class PlaceOrderController implements Initializable {
 
     }
 
-    @FXML
-    void placeOrderClick(ActionEvent event) {
 
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

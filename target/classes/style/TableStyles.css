@@ -6,7 +6,13 @@
 
 }
 
+.itemTable .table-row-cell {
+    -fx-cell-size: 40px;
+
+}
+
 .itemTable .column-header {
     -fx-background-color: #E0E0E0;
     -fx-font-weight: bold;
+    -fx-cell-size: 40px;
 }

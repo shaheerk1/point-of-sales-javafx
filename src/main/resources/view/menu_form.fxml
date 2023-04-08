@@ -60,10 +60,10 @@
                                       </rowConstraints>
                                        <children>
                                           <JFXButton onAction="#onPlaceOrderClick" prefHeight="170.0" prefWidth="170.0" style="-fx-background-color: #033630;" text="Place Order" textFill="WHITE" />
-                                          <JFXButton prefHeight="170.0" prefWidth="170.0" style="-fx-background-color: #033630;" text="Customers" textFill="WHITE" GridPane.columnIndex="1" />
-                                          <JFXButton prefHeight="170.0" prefWidth="170.0" style="-fx-background-color: #033630;" text="Supply" textFill="WHITE" GridPane.columnIndex="2" />
-                                          <JFXButton prefHeight="170.0" prefWidth="170.0" style="-fx-background-color: #033630;" text="Returns" textFill="WHITE" GridPane.columnIndex="3" />
-                                          <JFXButton prefHeight="170.0" prefWidth="170.0" style="-fx-background-color: #033630;" text="Expenses" textFill="WHITE" GridPane.columnIndex="4" />
+                                          <JFXButton onAction="#onCustomerClick" prefHeight="170.0" prefWidth="170.0" style="-fx-background-color: #033630;" text="Customers" textFill="WHITE" GridPane.columnIndex="1" />
+                                          <JFXButton onAction="#onSupplyClick" prefHeight="170.0" prefWidth="170.0" style="-fx-background-color: #033630;" text="Supply" textFill="WHITE" GridPane.columnIndex="2" />
+                                          <JFXButton onAction="#onReturnsClick" prefHeight="170.0" prefWidth="170.0" style="-fx-background-color: #033630;" text="Returns" textFill="WHITE" GridPane.columnIndex="3" />
+                                          <JFXButton onAction="#onExpensesClick" prefHeight="170.0" prefWidth="170.0" style="-fx-background-color: #033630;" text="Expenses" textFill="WHITE" GridPane.columnIndex="4" />
                                        </children>
                                     </GridPane>
                                  </children>

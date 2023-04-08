@@ -1,6 +1,8 @@
 package lk.target.model;
 
+import lk.target.db.DBConnection;
 import lk.target.dto.ItemDTO;
+import lk.target.dto.tm.CartDTO;
 import lk.target.dto.tm.ItemTM;
 import lk.target.util.CrudUtil;
 
@@ -129,5 +131,21 @@ public class ItemModel {
             );
         }
         return null;
+    }
+
+    public static boolean updateQty(List<CartDTO> cartDTOList) throws SQLException {
+        for (CartDTO dto : cartDTOList) {
+            if(!updateQty(dto)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    private static boolean updateQty(CartDTO dto) throws SQLException {
+
+        String sql = "UPDATE Item SET qtyOnHand = (qtyOnHand - ?) WHERE ItemCode = ?";
+
+        return CrudUtil.execute(sql,dto.getQty(),dto.getCode());
+
     }
 }

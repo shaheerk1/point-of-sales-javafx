@@ -167,7 +167,30 @@ public class MenuController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
     }
-    public static void openItemForm(){
+
+
+    @FXML
+    void onCustomerClick(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        Parent root  =  FXMLLoader.load(getClass().getResource("/view/customer_form.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+    }
+    @FXML
+    void onExpensesClick(ActionEvent event) {
+
+    }
+
+
+    @FXML
+    void onReturnsClick(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onSupplyClick(ActionEvent event) {
 
     }
 }

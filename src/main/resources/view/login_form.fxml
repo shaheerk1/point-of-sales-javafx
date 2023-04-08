@@ -120,7 +120,7 @@
                                                 </AnchorPane>
                                                 <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                                                    <children>
-                                                      <JFXTextField fx:id="passwordField" layoutX="67.0" layoutY="30.0" promptText="password" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
+                                                      <JFXTextField fx:id="passwordField" layoutX="67.0" layoutY="30.0" promptText="password" text="1234john" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
                                                          <font>
                                                             <Font size="13.0" />
                                                          </font>
