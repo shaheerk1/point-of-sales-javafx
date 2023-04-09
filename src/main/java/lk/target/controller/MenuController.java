@@ -179,18 +179,43 @@ public class MenuController implements Initializable {
         stage.setScene(scene);
     }
     @FXML
-    void onExpensesClick(ActionEvent event) {
+    void onExpensesClick(ActionEvent event) throws IOException {
 
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        Parent root  =  FXMLLoader.load(getClass().getResource("/view/expense_form.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
     }
 
 
     @FXML
-    void onReturnsClick(ActionEvent event) {
+    void onReturnsClick(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
 
+        Parent root  =  FXMLLoader.load(getClass().getResource("/view/return_form.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
     }
 
     @FXML
-    void onSupplyClick(ActionEvent event) {
+    void onSupplyClick(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
 
+        Parent root  =  FXMLLoader.load(getClass().getResource("/view/supply_form.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+    }
+    @FXML
+    void onSuppliersClick(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        Parent root  =  FXMLLoader.load(getClass().getResource("/view/supplier_form.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
     }
 }
