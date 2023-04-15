@@ -147,7 +147,7 @@
                                                 <Font size="20.0" />
                                              </font>
                                           </JFXTextField>
-                                          <JFXButton fx:id="newBtn" onAction="#newItemClick" prefHeight="48.0" prefWidth="188.0" style="-fx-background-color: #3D6763;" text="New user" textFill="WHITE" GridPane.columnIndex="1">
+                                          <JFXButton fx:id="newBtn" onAction="#newClick" prefHeight="48.0" prefWidth="188.0" style="-fx-background-color: #3D6763;" text="New customer" textFill="WHITE" GridPane.columnIndex="1">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>

@@ -16,8 +16,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import lk.target.dto.CustomerDTO;
 import lk.target.dto.ItemDTO;
 import lk.target.dto.tm.ItemTM;
+import lk.target.model.CustomerModel;
 import lk.target.model.ItemModel;
 
 import java.io.IOException;
@@ -90,7 +92,39 @@ public class CustomerController implements Initializable {
 
     @FXML
     void addBtnClick(ActionEvent event) {
+        CustomerDTO customerDTO = new CustomerDTO(
+                nextCodeField.getText(),
+                titleField.getText(),
+                nameField.getText(),
+                addressField.getText(),
+                mobileField.getText(),
+                cityField.getText(),
+                provinceField.getText()
+        );
 
+
+        try {
+            Boolean saved = CustomerModel.saveItem(customerDTO);
+            if (saved){
+                new Alert(Alert.AlertType.INFORMATION, "Customer Added!").show();
+//                getAllItems();
+//                itemTable.refresh();
+                deleteBtn.setDisable(true);
+                newBtn.setText("New Customer");
+                addBtn.setDisable(true);
+                titleField.setDisable(true);
+                nameField.setDisable(true);
+                addressField.setDisable(true);
+                mobileField.setDisable(true);
+                cityField.setDisable(true);
+                provinceField.setDisable(true);
+
+            }else {
+                new Alert(Alert.AlertType.ERROR, "Failed to Add Customer!").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+        }
     }
 
     @FXML
@@ -99,8 +133,41 @@ public class CustomerController implements Initializable {
     }
 
     @FXML
-    void newItemClick(ActionEvent event) {
+    void newClick(ActionEvent event) {
+        deleteBtn.setDisable(true);
 
+        if (newBtn.getText().equalsIgnoreCase("new customer")){
+            updateBtn.setDisable(true);
+            addBtn.setDisable(false);
+            titleField.setDisable(false);
+            nameField.setDisable(false);
+            addressField.setDisable(false);
+            mobileField.setDisable(false);
+            cityField.setDisable(false);
+            provinceField.setDisable(false);
+
+            try {
+                String nextCode = CustomerModel.getNextCode();
+                nextCodeField.setText(nextCode);
+                forSearch.setText("");
+                updateBtn.setDisable(true);
+                updateBtn.setText("Edit");
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+            }
+
+            newBtn.setText("Clear");
+        }else if(newBtn.getText().equalsIgnoreCase("clear")){
+
+            titleField.setText("");
+            nameField.setText("");
+            addressField.setText("");
+            mobileField.setText("");
+            cityField.setText("");
+            provinceField.setText("");
+
+
+        }
     }
 
     @FXML
@@ -115,15 +182,113 @@ public class CustomerController implements Initializable {
     @FXML
     void onDeleteClick(ActionEvent event) {
 
+        try {
+            Boolean deleted = CustomerModel.delete(forSearch.getText());
+            if (deleted){
+                new Alert(Alert.AlertType.INFORMATION, "Deleted!").show();
+//                getAllItems();
+//                itemTable.refresh();
+            }else {
+                new Alert(Alert.AlertType.ERROR, "Couldn't Delete Customer").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+        }
+
+        deleteBtn.setDisable(true);
+
+
     }
 
     @FXML
     void onSearchBtn(ActionEvent event) {
 
+
+        deleteBtn.setDisable(false);
+        updateBtn.setDisable(true);
+        addBtn.setDisable(true);
+        titleField.setDisable(true);
+        nameField.setDisable(true);
+        addressField.setDisable(true);
+        mobileField.setDisable(true);
+        cityField.setDisable(true);
+        provinceField.setDisable(true);
+
+
+
+
+        String cusCode = forSearch.getText();
+        try {
+            CustomerDTO customer = CustomerModel.searchCustomer(cusCode);
+            if (customer != null){
+
+
+                titleField.setText(customer.getTitle());
+                nameField.setText(customer.getName());
+                addressField.setText(customer.getAddress());
+                mobileField.setText(customer.getMobile());
+                cityField.setText(customer.getCity());
+                provinceField.setText(customer.getProvince());
+
+                newBtn.setText("New Customer");
+                nextCodeField.setText("");
+                updateBtn.setDisable(false);
+                updateBtn.setText("Edit");
+
+            }
+            else {
+                new Alert(Alert.AlertType.ERROR, "No Customer With that id!").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+        }
     }
 
     @FXML
     void updBtnClick(ActionEvent event) {
+        if(updateBtn.getText().equalsIgnoreCase("Edit")){
+            newBtn.setText("New Customer");
+            updateBtn.setText("Update");
+            addBtn.setDisable(true);
+//            forSearch.setDisable(true);
+            titleField.setDisable(false);
+            nameField.setDisable(false);
+            addressField.setDisable(false);
+            mobileField.setDisable(false);
+            cityField.setDisable(false);
+            provinceField.setDisable(false);
+        }else {
+
+
+
+            CustomerDTO customerDTO = new CustomerDTO(
+                    forSearch.getText(),
+                    titleField.getText(),
+                    nameField.getText(),
+                    addressField.getText(),
+                    mobileField.getText(),
+                    cityField.getText(),
+                    provinceField.getText()
+
+            );
+
+            try {
+                Boolean updated = CustomerModel.update(customerDTO);
+                if (updated){
+                    updateBtn.setText("Edit");
+                    updateBtn.setDisable(true);
+//                    forSearch.setDisable(false);
+                    new Alert(Alert.AlertType.INFORMATION, "Customer  "+customerDTO.getId()+" has updated Successfully!").show();
+//                    getAllItems();
+//                    itemTable.refresh();
+                }else {
+                    new Alert(Alert.AlertType.ERROR, "Update failed. Try again!").show();
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+            }
+        }
+
 
     }
 }
