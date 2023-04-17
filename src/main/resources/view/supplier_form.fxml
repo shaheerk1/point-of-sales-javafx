@@ -148,7 +148,7 @@
                                                 <Font size="20.0" />
                                              </font>
                                           </JFXTextField>
-                                          <JFXButton fx:id="newBtn" onAction="#newItemClick" prefHeight="48.0" prefWidth="188.0" style="-fx-background-color: #3D6763;" text="New user" textFill="WHITE" GridPane.columnIndex="1">
+                                          <JFXButton fx:id="newBtn" onAction="#newItemClick" prefHeight="48.0" prefWidth="188.0" style="-fx-background-color: #3D6763;" text="New Supplier" textFill="WHITE" GridPane.columnIndex="1">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -188,7 +188,7 @@
                                                 <Font size="20.0" />
                                              </font>
                                           </JFXTextField>
-                                          <JFXTextField fx:id="provinceField1" disable="true" prefHeight="187.0" prefWidth="752.0" promptText="Country" GridPane.rowIndex="4">
+                                          <JFXTextField fx:id="countryField" disable="true" prefHeight="187.0" prefWidth="752.0" promptText="Country" GridPane.rowIndex="4">
                                              <padding>
                                                 <Insets left="15.0" />
                                              </padding>

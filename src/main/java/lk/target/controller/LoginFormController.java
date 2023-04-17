@@ -49,13 +49,12 @@ public class LoginFormController {
                 Stage stage = (Stage) node.getScene().getWindow();
 
                 Parent root  =  FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
+
+                stage.setWidth(stage.getWidth());
+                stage.setHeight(stage.getHeight());
                 stage.setScene(new Scene(root));
 
-                stage.getIcons().add(new Image("/image/target.png"));
-                stage.setResizable(true);
-                stage.setTitle("Target");
-                stage.centerOnScreen();
-                stage.show();
+
             }else {
                 new Alert(Alert.AlertType.ERROR, "Wrong Credentials, try again!").show();
             }

@@ -45,7 +45,7 @@ public class SupplyModel {
             if (isSaved) {
                 boolean isUpdated = ItemModel.updateQtyForSupply(suppliesDTOList);
                 if (isUpdated) {
-                    boolean isOrderDetailSaved = OrderDetailModel.save(oId, cartDTOList);
+                    boolean isOrderDetailSaved = SupplyDetailModel.save(supId, suppliesDTOList);
                     if (isOrderDetailSaved) {
                         con.commit();
                         return true;

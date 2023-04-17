@@ -190,7 +190,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </JFXTextField>
-                                    <JFXTextField fx:id="ecievedPriceField" prefHeight="151.0" prefWidth="140.0" promptText="Recieved Price" GridPane.columnIndex="2">
+                                    <JFXTextField fx:id="recievedPriceField" prefHeight="151.0" prefWidth="140.0" promptText="Recieved Price" GridPane.columnIndex="2">
                                        <font>
                                           <Font size="18.0" />
                                        </font>

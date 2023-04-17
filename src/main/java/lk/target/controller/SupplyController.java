@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import lk.target.dto.ItemDTO;
 import lk.target.dto.SupplyDTO;
@@ -265,6 +266,16 @@ public class SupplyController implements Initializable {
         generateNextSupplyId();
         loadCustomerIds();
         loadItemCodes();
+        setCellValueFactory();
+    }
+    void setCellValueFactory() {
+        colItemCode.setCellValueFactory(new PropertyValueFactory<>("code"));
+        colItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colItemDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colItemQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        colItemPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        colTot.setCellValueFactory(new PropertyValueFactory<>("total"));
+        colItemAction.setCellValueFactory(new PropertyValueFactory<>("action"));
     }
 }
 

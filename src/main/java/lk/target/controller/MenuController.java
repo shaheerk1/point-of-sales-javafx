@@ -216,6 +216,8 @@ public class MenuController implements Initializable {
 
         Parent root  =  FXMLLoader.load(getClass().getResource("/view/supplier_form.fxml"));
         Scene scene = new Scene(root);
+        stage.setWidth(stage.getWidth());
+        stage.setHeight(stage.getHeight());
         stage.setScene(scene);
     }
 }
