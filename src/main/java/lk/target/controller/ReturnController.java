@@ -3,20 +3,33 @@ package lk.target.controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import lk.target.dto.CustomerDTO;
+import lk.target.dto.ItemDTO;
+import lk.target.dto.ReturnDTO;
+import lk.target.dto.tm.ReturnTM;
+import lk.target.dto.tm.SupplyTM;
+import lk.target.model.*;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.ResourceBundle;
 
-public class ReturnController {
+public class ReturnController implements Initializable {
 
     @FXML
     private Label orderNumber;
@@ -28,7 +41,7 @@ public class ReturnController {
     private Label dateTimeLbl;
 
     @FXML
-    private JFXComboBox<?> cusComboBox;
+    private JFXComboBox<String> cusComboBox;
 
     @FXML
     private Label cusNameLbl;
@@ -40,7 +53,7 @@ public class ReturnController {
     private JFXTextField itemCodeForSearch1;
 
     @FXML
-    private JFXComboBox<?> itemComboBox;
+    private JFXComboBox<String> itemComboBox;
 
     @FXML
     private Label itemNameLbl;
@@ -55,41 +68,53 @@ public class ReturnController {
     private JFXTextField orderIdField;
 
     @FXML
-    private TableView<?> orderTable;
+    private TableView<ReturnTM> orderTable;
 
     @FXML
     private TableColumn<?, ?> colItemCode;
 
     @FXML
-    private TableColumn<?, ?> colItemName;
-
-    @FXML
-    private TableColumn<?, ?> colItemDescription;
+    private TableColumn<?, ?> colOrderId;
 
     @FXML
     private TableColumn<?, ?> colItemQty;
 
     @FXML
-    private TableColumn<?, ?> colItemPrice;
-
-    @FXML
-    private TableColumn<?, ?> colItemAction;
-
+    private TableColumn<?, ?> colAction;
     @FXML
     private Label totLbl;
 
-    @FXML
-    private JFXButton placeOrderBtn;
-
+    private ObservableList<ReturnTM> obList = FXCollections.observableArrayList();
     @FXML
     void addBtnClick(ActionEvent event) {
 
+        ReturnDTO returnDTO = new ReturnDTO(
+                nextId.getText(),
+                itemComboBox.getValue(),
+                orderIdField.getText(),
+                Integer.parseInt(qtyField.getText())
+        );
+
+
+        try {
+            Boolean saved = ReturnModel.saveItem(returnDTO);
+            if (saved){
+                new Alert(Alert.AlertType.INFORMATION, "Return Added!").show();
+                generateNextSupplyId();
+
+//                getAllItems();
+//                itemTable.refresh();
+
+            }else {
+                new Alert(Alert.AlertType.ERROR, "Failed to Add Return!").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+        }
+
     }
 
-    @FXML
-    void btnPlaceOrderOnAction(ActionEvent event) {
 
-    }
 
     @FXML
     void combCusOnAction(ActionEvent event) {
@@ -98,8 +123,66 @@ public class ReturnController {
 
     @FXML
     void combItemOnAction(ActionEvent event) {
+        String code = itemComboBox.getSelectionModel().getSelectedItem();
+
+        try {
+            ItemDTO item = ItemModel.searchById(code);
+            fillItemFields(item);
+            qtyField.requestFocus();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+        }
+
 
     }
+    private void fillItemFields(ItemDTO item) {
+        itemNameLbl.setText(item.getName());
+        DescLbl.setText(item.getDescription());
+    }
+
+    private void generateNextSupplyId() {
+        try {
+            String next = ReturnModel.generateNextId();
+            nextId.setText(next);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void loadCustomerIds() {
+        try {
+            List<String> ids = SupplierModel.getIds();
+
+            ObservableList<String> obList = FXCollections.observableArrayList();
+
+            for (String id : ids) {
+                obList.add(id);
+            }
+            cusComboBox.setItems(obList);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+        }
+    }
+
+    private void loadItemCodes() {
+        try {
+            ObservableList<String> obList = FXCollections.observableArrayList();
+            List<String> codes = ItemModel.getCodes();
+
+            for (String code : codes) {
+                obList.add(code);
+            }
+            itemComboBox.setItems(obList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+        }
+    }
+
+
 
     @FXML
     void itemSearchFieldAction(ActionEvent event) {
@@ -119,5 +202,13 @@ public class ReturnController {
     void onItemSearchBtn(ActionEvent event) {
 
     }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        generateNextSupplyId();
+        loadCustomerIds();
+        loadItemCodes();
+    }
+
 
 }

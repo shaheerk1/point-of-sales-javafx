@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -120,11 +121,7 @@
                                                 </AnchorPane>
                                                 <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                                                    <children>
-                                                      <JFXTextField fx:id="passwordField" layoutX="67.0" layoutY="30.0" promptText="password" text="1234john" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
-                                                         <font>
-                                                            <Font size="13.0" />
-                                                         </font>
-                                                      </JFXTextField>
+                                                      <JFXPasswordField fx:id="passwordField" layoutX="128.0" layoutY="29.0" promptText="Password" text="1234john" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0" />
                                                    </children>
                                                 </AnchorPane>
                                              </children>

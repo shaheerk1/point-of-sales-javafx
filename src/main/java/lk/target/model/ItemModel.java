@@ -1,14 +1,11 @@
 package lk.target.model;
 
-import lk.target.db.DBConnection;
 import lk.target.dto.ItemDTO;
 import lk.target.dto.SupplyDTO;
-import lk.target.dto.tm.CartDTO;
+import lk.target.dto.CartDTO;
 import lk.target.dto.tm.ItemTM;
 import lk.target.util.CrudUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

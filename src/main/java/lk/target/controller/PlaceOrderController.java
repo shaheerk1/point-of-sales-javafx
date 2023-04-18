@@ -17,7 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import lk.target.dto.ItemDTO;
-import lk.target.dto.tm.CartDTO;
+import lk.target.dto.CartDTO;
 import lk.target.dto.tm.PlaceOrderTM;
 import lk.target.model.CustomerModel;
 import lk.target.model.ItemModel;
