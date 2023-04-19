@@ -3,6 +3,8 @@ package lk.target.model;
 import lk.target.db.DBConnection;
 import lk.target.dto.CustomerDTO;
 import lk.target.dto.ItemDTO;
+import lk.target.dto.tm.CustomerTM;
+import lk.target.dto.tm.ItemTM;
 import lk.target.util.CrudUtil;
 
 import java.sql.Connection;
@@ -87,4 +89,25 @@ public class CustomerModel {
 
         return CrudUtil.execute(sql,text);
     }
+
+    public static List<CustomerTM> getAll() throws SQLException {
+        String sql = "SELECT * FROM Customer";
+        ResultSet rs = CrudUtil.execute(sql);
+
+        List<CustomerTM> cusList = new ArrayList<>();
+
+        while (rs.next()){
+            CustomerTM customerTM = new CustomerTM(
+                    rs.getString(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(5),
+                    rs.getString(4)
+            );
+            cusList.add(customerTM);
+
+        }
+        return cusList;
+    }
+
 }

@@ -20,12 +20,14 @@ import lk.target.dto.CustomerDTO;
 import lk.target.dto.ItemDTO;
 import lk.target.dto.ReturnDTO;
 import lk.target.dto.tm.ReturnTM;
+import lk.target.dto.tm.SupplierTM;
 import lk.target.dto.tm.SupplyTM;
 import lk.target.model.*;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -71,6 +73,9 @@ public class ReturnController implements Initializable {
     private TableView<ReturnTM> orderTable;
 
     @FXML
+    private TableColumn<?, ?> colID;
+
+    @FXML
     private TableColumn<?, ?> colItemCode;
 
     @FXML
@@ -80,11 +85,14 @@ public class ReturnController implements Initializable {
     private TableColumn<?, ?> colItemQty;
 
     @FXML
-    private TableColumn<?, ?> colAction;
+    private TableColumn<?, ?> colTime;
+
+    @FXML
+    private TableColumn<?, ?> colItemAction;
+
     @FXML
     private Label totLbl;
 
-    private ObservableList<ReturnTM> obList = FXCollections.observableArrayList();
     @FXML
     void addBtnClick(ActionEvent event) {
 
@@ -208,6 +216,39 @@ public class ReturnController implements Initializable {
         generateNextSupplyId();
         loadCustomerIds();
         loadItemCodes();
+        getAllItems();
+        setCellValueFactory();
+    }
+
+    private List<ReturnTM> returnList = new ArrayList<>();
+    private ObservableList<ReturnTM> obList = FXCollections.observableArrayList();
+
+
+    private void getAllItems() {
+        obList.clear();
+        try {
+            returnList = ReturnModel.getAll();
+            if (returnList.size() != 0){
+                for(ReturnTM returnTM: returnList){
+                    obList.add(returnTM);
+                    orderTable.setItems(obList);
+
+                }
+            }else {
+                //no Items in db
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to get Returns from database!").show();
+        }
+    }
+
+    void setCellValueFactory() {
+        colID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colItemCode.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
+        colOrderId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
+        colItemQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        colTime.setCellValueFactory(new PropertyValueFactory<>("time"));
+        colItemAction.setCellValueFactory(new PropertyValueFactory<>("action"));
     }
 
 

@@ -1,10 +1,15 @@
 package lk.target.model;
 
+import javafx.scene.control.Button;
 import lk.target.dto.ReturnDTO;
+import lk.target.dto.tm.CustomerTM;
+import lk.target.dto.tm.ReturnTM;
 import lk.target.util.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReturnModel {
     public static String generateNextId() throws SQLException {
@@ -35,5 +40,26 @@ public class ReturnModel {
 
         return CrudUtil.execute(sql,returnDTO.getId(),returnDTO.getItemCode(), returnDTO.getOrderId(), returnDTO.getQty());
 
+    }
+
+    public static List<ReturnTM> getAll() throws SQLException {
+        String sql = "SELECT * FROM ReturnItem";
+        ResultSet rs = CrudUtil.execute(sql);
+
+        List<ReturnTM> returnList = new ArrayList<>();
+
+        while (rs.next()){
+            ReturnTM returnTM = new ReturnTM(
+                    rs.getString(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getInt(4),
+                    rs.getString(5),
+                    new Button("Remove")
+            );
+            returnList.add(returnTM);
+
+        }
+        return returnList;
     }
 }

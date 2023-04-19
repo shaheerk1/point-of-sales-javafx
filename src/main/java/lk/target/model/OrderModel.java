@@ -67,4 +67,13 @@ public class OrderModel {
         return CrudUtil.execute(sql,oId,cusId);
 
     }
+
+    public static String getLastOrderId() throws SQLException {
+        String sql = "SELECT OrderID FROM Orders ORDER BY OrderID DESC LIMIT 1";
+        ResultSet resultSet = CrudUtil.execute(sql);
+        if(resultSet.next()) {
+            return resultSet.getString(1);
+        }
+        return null;
+    }
 }

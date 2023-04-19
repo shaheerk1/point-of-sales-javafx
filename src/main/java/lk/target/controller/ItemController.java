@@ -19,7 +19,6 @@ import javafx.stage.Stage;
 import lk.target.dto.ItemDTO;
 import lk.target.dto.tm.ItemTM;
 import lk.target.model.ItemModel;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -106,6 +105,15 @@ public class ItemController implements Initializable {
 
     @FXML
     void addBtnClick(ActionEvent event) {
+
+        if (! itemQty.getText().matches("\\d+")){
+            new Alert(Alert.AlertType.ERROR, "QTY should only contain numbers!").show();
+            return;
+        }
+        if (! itemPrice.getText().matches("[0-9]{1,13}(\\.[0-9]*)?")){
+            new Alert(Alert.AlertType.ERROR, "Price not valid!").show();
+            return;
+        }
 
         ItemDTO itemDTO = new ItemDTO(
                 newItemCodeField.getText(),
@@ -292,6 +300,13 @@ public class ItemController implements Initializable {
         }
     }
 
+    void setCellValueFactory() {
+        colItemCode.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
+        colItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colItemDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colItemQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        colItemPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+    }
     @FXML
     private TableColumn<?, ?> colItemCode;
 
@@ -307,13 +322,6 @@ public class ItemController implements Initializable {
     @FXML
     private TableColumn<?, ?> colItemPrice;
 
-    void setCellValueFactory() {
-        colItemCode.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
-        colItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colItemDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        colItemQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
-        colItemPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-    }
 
     public void combCusOnAction(ActionEvent actionEvent) {
     }

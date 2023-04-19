@@ -17,8 +17,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import lk.target.dto.ExpenseDTO;
+import lk.target.dto.tm.ExpenseTM;
+import lk.target.dto.tm.ReturnTM;
 import lk.target.model.ExpenseModel;
 import lk.target.model.ReturnModel;
 import lk.target.model.SupplierModel;
@@ -66,7 +69,7 @@ public class ExpenseController implements Initializable {
     private JFXButton deleteBtn;
 
     @FXML
-    private TableView<?> itemTable;
+    private TableView<ExpenseTM> itemTable;
 
     @FXML
     private TableColumn<?, ?> idCol;
@@ -79,6 +82,8 @@ public class ExpenseController implements Initializable {
 
     @FXML
     private TableColumn<?, ?> timeCol;
+    @FXML
+    private TableColumn<?, ?> typeCol;
 
     @FXML
     private TableColumn<?, ?> itemCodeCol;
@@ -158,6 +163,41 @@ public class ExpenseController implements Initializable {
 
         loadReturnTypes();
         generateNextId();
+        getAllItems();
+        setCellValueFactory();
+    }
+
+    private List<ExpenseTM> expenseList = new ArrayList<>();
+    private ObservableList<ExpenseTM> obList = FXCollections.observableArrayList();
+
+
+    private void getAllItems() {
+        obList.clear();
+        try {
+            expenseList = ExpenseModel.getAll();
+            if (expenseList.size() != 0){
+                for(ExpenseTM expenseTM: expenseList){
+                    obList.add(expenseTM);
+                    itemTable.setItems(obList);
+
+                }
+            }else {
+                //no Items in db
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to get Expenses from database!").show();
+        }
+    }
+
+    void setCellValueFactory() {
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        descCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
+        typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        itemCodeCol.setCellValueFactory(new PropertyValueFactory<>("itemCode"));
+        supCol.setCellValueFactory(new PropertyValueFactory<>("supplyId"));
+        returnCol.setCellValueFactory(new PropertyValueFactory<>("returnId"));
     }
 
     private void generateNextId() {

@@ -1,10 +1,15 @@
 package lk.target.model;
 
+import javafx.scene.control.Button;
 import lk.target.dto.ExpenseDTO;
+import lk.target.dto.tm.ExpenseTM;
+import lk.target.dto.tm.ReturnTM;
 import lk.target.util.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExpenseModel {
     public static Boolean save(ExpenseDTO expenseDTO) throws SQLException {
@@ -32,6 +37,29 @@ public class ExpenseModel {
 
 
 
+    }
+
+    public static List<ExpenseTM> getAll() throws SQLException {
+        String sql = "SELECT * FROM Expense";
+        ResultSet rs = CrudUtil.execute(sql);
+
+        List<ExpenseTM> expenseList = new ArrayList<>();
+
+        while (rs.next()){
+            ExpenseTM expenseTM = new ExpenseTM(
+                    rs.getString(1),
+                    rs.getString(2),
+                    rs.getDouble(3),
+                    rs.getString(4),
+                    rs.getString(5),
+                    rs.getString(6),
+                    rs.getString(7),
+                    rs.getString(8)
+            );
+            expenseList.add(expenseTM);
+
+        }
+        return expenseList;
     }
 
 //    public static String generateNextId() throws SQLException {

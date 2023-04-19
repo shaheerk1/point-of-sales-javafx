@@ -244,9 +244,10 @@
                       <TableColumn fx:id="descCol" prefWidth="273.0" text="description" />
                         <TableColumn fx:id="amountCol" prefWidth="123.0" text="amount" />
                         <TableColumn fx:id="timeCol" prefWidth="231.0" text="time" />
-                        <TableColumn fx:id="itemCodeCol" prefWidth="181.0" text="itemCode" />
-                        <TableColumn fx:id="supCol" prefWidth="161.0" text="supply" />
-                        <TableColumn fx:id="returnCol" prefWidth="144.0" text="return" />
+                        <TableColumn fx:id="typeCol" prefWidth="115.0" text="type" />
+                        <TableColumn fx:id="itemCodeCol" prefWidth="111.0" text="item" />
+                        <TableColumn fx:id="supCol" prefWidth="116.0" text="supply" />
+                        <TableColumn fx:id="returnCol" prefWidth="115.0" text="return" />
                     </columns>
                      <GridPane.margin>
                         <Insets bottom="10.0" left="20.0" right="20.0" top="5.0" />

@@ -18,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import lk.target.dto.CustomerDTO;
 import lk.target.dto.ItemDTO;
+import lk.target.dto.tm.CustomerTM;
 import lk.target.dto.tm.ItemTM;
 import lk.target.model.CustomerModel;
 import lk.target.model.ItemModel;
@@ -34,8 +35,38 @@ public class CustomerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        getAllItems();
+        setCellValueFactory();
     }
 
+    private List<CustomerTM> cusList = new ArrayList<>();
+
+    private ObservableList<CustomerTM> obList = FXCollections.observableArrayList();
+    private void getAllItems() {
+        obList.clear();
+        try {
+            cusList = CustomerModel.getAll();
+            if (cusList.size() != 0){
+                for(CustomerTM customerTM: cusList){
+                    obList.add(customerTM);
+                    itemTable.setItems(obList);
+
+                }
+            }else {
+                //no Items in db
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to get Items from database!").show();
+        }
+    }
+
+    void setCellValueFactory() {
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        title.setCellValueFactory(new PropertyValueFactory<>("title"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        address.setCellValueFactory(new PropertyValueFactory<>("address"));
+        mobile.setCellValueFactory(new PropertyValueFactory<>("mobile"));
+    }
     @FXML
     private JFXTextField forSearch;
 
@@ -73,7 +104,7 @@ public class CustomerController implements Initializable {
     private JFXButton deleteBtn;
 
     @FXML
-    private TableView<?> itemTable;
+    private TableView<CustomerTM> itemTable;
 
     @FXML
     private TableColumn<?, ?> id;

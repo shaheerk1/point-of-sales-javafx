@@ -16,20 +16,22 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import lk.target.db.DBConnection;
 import lk.target.dto.ItemDTO;
 import lk.target.dto.CartDTO;
 import lk.target.dto.tm.PlaceOrderTM;
 import lk.target.model.CustomerModel;
 import lk.target.model.ItemModel;
 import lk.target.model.OrderModel;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class PlaceOrderController implements Initializable {
     @FXML
@@ -95,11 +97,35 @@ public class PlaceOrderController implements Initializable {
     private Label totLbl;
 
     @FXML
+    void btnPrintOnAction(ActionEvent event) {
+
+
+
+        try {
+            String lastId = OrderModel.getLastOrderId();
+            InputStream rpt = PlaceOrderController.class.getResourceAsStream("/report/orderReport.jrxml");
+            JasperReport compileReport = JasperCompileManager.compileReport(rpt);
+            Map<String,Object> data = new HashMap<>();
+            data.put("orderIdParam", lastId);
+            System.out.println(lastId);
+            JasperPrint filledReport = JasperFillManager.fillReport(compileReport,data, DBConnection.getInstance().getConnection());
+            JasperViewer.viewReport(filledReport,false);
+        } catch (JRException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @FXML
     private JFXButton placeOrderBtn;
 
     private ObservableList<PlaceOrderTM> obList = FXCollections.observableArrayList();
     @FXML
     void addBtnClick(ActionEvent event) {
+
+        if (! qtyField.getText().matches("\\d+")){
+            new Alert(Alert.AlertType.ERROR, "QTY should only contain numbers!").show();
+            return;
+        }
+
         String code = itemComboBox.getValue();
         String name = itemNameLbl.getText();
         String description = DescLbl.getText();
@@ -281,5 +307,8 @@ public class PlaceOrderController implements Initializable {
         colItemPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         colTot.setCellValueFactory(new PropertyValueFactory<>("total"));
         colItemAction.setCellValueFactory(new PropertyValueFactory<>("action"));
+    }
+
+    public void allOrdersClick(ActionEvent actionEvent) {
     }
 }
