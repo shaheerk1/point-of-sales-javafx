@@ -110,4 +110,28 @@ public class CustomerModel {
         return cusList;
     }
 
+    public static List<String> getIds(String text) throws SQLException {
+        String sql = "SELECT CustID FROM Customer WHERE CustName LIKE ?";
+
+        text = "%"+text+"%";
+
+        List<String> ids = new ArrayList<>();
+
+        ResultSet resultSet = CrudUtil.execute(sql, text);
+        while (resultSet.next()) {
+            ids.add(resultSet.getString(1));
+        }
+        return ids;
+    }
+
+    public static Integer getTotalCustomers() throws SQLException {
+
+        String sql = "SELECT COUNT(*) FROM Customer;";
+        ResultSet rs = CrudUtil.execute(sql);
+
+        if(rs.next()){
+            return rs.getInt(1);
+        }
+        return null;
+    }
 }

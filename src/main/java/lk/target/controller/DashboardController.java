@@ -21,14 +21,58 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
+import lk.target.dto.StarCustomerDTO;
+import lk.target.model.CustomerModel;
+import lk.target.model.OrderModel;
+import lk.target.model.SupplierModel;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
+import java.util.prefs.Preferences;
 
 public class DashboardController implements Initializable {
+
+    @FXML
+    private Label cusCount;
+
+    @FXML
+    private Label supCount;
+
+    @FXML
+    private Label ordersCount;
+
+    @FXML
+    private Label cusId0;
+
+    @FXML
+    private Label cusName0;
+
+    @FXML
+    private Label cusAmount0;
+
+    @FXML
+    private Label cusId1;
+
+    @FXML
+    private Label cusName1;
+
+    @FXML
+    private Label cusAmount1;
+
+    @FXML
+    private Label cusId2;
+
+    @FXML
+    private Label cusName2;
+
+    @FXML
+    private Label cusAmount2;
+
     @FXML
     private AnchorPane quickBtn1;
 
@@ -56,6 +100,8 @@ public class DashboardController implements Initializable {
     @FXML
     private JFXCheckBox cb5;
 
+
+
     @FXML
     private JFXCheckBox cb6;
 
@@ -76,6 +122,8 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        setLabelValues();
 
         parentPane.sceneProperty().addListener((observable, oldScene, newScene) -> {
             if (newScene != null) {
@@ -146,10 +194,69 @@ public class DashboardController implements Initializable {
         }
         ((QuickBtnController)(fxmlLoader.getController())).setDbc(this);
 
-       loadNodesToQuickOptArr();
-       setQuickNodesToPane();
+        loadQuickOptionsFromStorage();
 
     }
+
+    private void setLabelValues() {
+        try {
+
+            Integer custCount = CustomerModel.getTotalCustomers();
+            if (custCount != null){
+                String stringVal = String.valueOf(custCount);
+                cusCount.setText(stringVal);
+            }
+
+            Integer suppCount = SupplierModel.getTotalCount();
+            if (suppCount != null){
+                String stringVal = String.valueOf(suppCount);
+                supCount.setText(stringVal);
+            }
+
+            Integer ordrCount = OrderModel.getTotalCount();
+            if (ordrCount != null){
+                String stringVal = String.valueOf(ordrCount);
+                ordersCount.setText(stringVal);
+            }
+
+
+            List<StarCustomerDTO> strCus = null;
+            strCus = OrderModel.getBestCus();
+
+            if (strCus.size() > 0){
+                cusId0.setText(strCus.get(0).getId());
+                cusName0.setText(strCus.get(0).getName());
+                cusAmount0.setText("RS "+ strCus.get(0).getAmount());
+
+                cusId1.setText(strCus.get(1).getId());
+                cusName1.setText(strCus.get(1).getName());
+                cusAmount1.setText("RS "+ strCus.get(1).getAmount());
+
+                cusId2.setText(strCus.get(2).getId());
+                cusName2.setText(strCus.get(2).getName());
+                cusAmount2.setText("RS "+ strCus.get(2).getAmount());
+
+
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+    private static final String PREF_KEY = "myShortcuts";
+    private static final String[] PREF_DEFAULT = {"default"};
+
+    public void onLogoutClick(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        Parent root  =  FXMLLoader.load(getClass().getResource("/view/login_form.fxml"));
+        stage.setScene(new Scene(root));
+    }
+
     private class MyKeyEventHandler implements EventHandler<KeyEvent> {
 
         final KeyCombination keyCombinationShiftC = new KeyCodeCombination(
@@ -212,6 +319,22 @@ public class DashboardController implements Initializable {
                             throw new RuntimeException(e);
                         }
                         break;
+                    case "return":
+
+                    try {
+                        quickNodes.add((Node) FXMLLoader.load(getClass().getResource("/view/component/return_btn.fxml")));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                    case "supplier":
+
+                    try {
+                        quickNodes.add((Node) FXMLLoader.load(getClass().getResource("/view/component/supplier_btn.fxml")));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
 
                     default:
                         try {
@@ -304,6 +427,34 @@ public class DashboardController implements Initializable {
             }
         }
 
+
+        // Get the user preferences node for your application
+        Preferences prefs = Preferences.userRoot().node("lk.target");
+
+
+        String arrayAsString = selectedFavs.toString();
+        prefs.put(PREF_KEY, arrayAsString);
+
+
+        loadNodesToQuickOptArr();
+        setQuickNodesToPane();
+    }
+
+    void loadQuickOptionsFromStorage(){
+
+        // Get the user preferences node for your application
+        Preferences prefs = Preferences.userRoot().node("lk.target");
+
+        // Retrieve the value of your preference
+        String prefValue = prefs.get(PREF_KEY, Arrays.toString(PREF_DEFAULT));
+        String[] retrievedArray = prefValue.substring(1, prefValue.length() - 1).split(", ");
+//        System.out.println("Preference value: " + Arrays.toString(retrievedArray));
+
+        for (int i = 0; i < 4; i++) {
+            selectedFavs.set(i,retrievedArray[i]);
+        }
+
+
         loadNodesToQuickOptArr();
         setQuickNodesToPane();
     }
@@ -341,7 +492,7 @@ public class DashboardController implements Initializable {
 
         Timeline timeline = new Timeline();
         KeyValue kv= new KeyValue(root.translateYProperty(),0, Interpolator.EASE_IN);
-        KeyFrame kf = new KeyFrame(Duration.seconds(0.2),kv);
+        KeyFrame kf = new KeyFrame(Duration.seconds(0.4),kv);
         timeline.getKeyFrames().add(kf);
 //        timeline.setOnFinished(event2 ->{
 //            parentPane.getChildren().removeIf(node -> node != root);

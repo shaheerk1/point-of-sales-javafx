@@ -102,8 +102,8 @@ public class SupplierModel {
                     rs.getString(1),
                     rs.getString(2),
                     rs.getString(3),
-                    rs.getString(5),
-                    rs.getString(4)
+                    rs.getString(4),
+                    rs.getString(5)
             );
             supList.add(supplierTM);
 
@@ -111,4 +111,13 @@ public class SupplierModel {
         return supList;
     }
 
+    public static Integer getTotalCount() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM Supplier;";
+        ResultSet rs = CrudUtil.execute(sql);
+
+        if(rs.next()){
+            return rs.getInt(1);
+        }
+        return null;
+    }
 }

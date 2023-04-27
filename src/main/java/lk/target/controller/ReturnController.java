@@ -160,7 +160,7 @@ public class ReturnController implements Initializable {
 
     private void loadCustomerIds() {
         try {
-            List<String> ids = SupplierModel.getIds();
+            List<String> ids = CustomerModel.getIds();
 
             ObservableList<String> obList = FXCollections.observableArrayList();
 

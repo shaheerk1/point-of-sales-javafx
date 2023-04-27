@@ -49,9 +49,12 @@ public class PlaceOrderController implements Initializable {
     @FXML
     private JFXButton addBtn;
 
-    @FXML
-    private JFXTextField itemCodeForSearch1;
 
+    @FXML
+    private JFXTextField itemCodeForSearch;
+
+    @FXML
+    private JFXTextField cusCodeForSearch;
     @FXML
     private JFXComboBox<String> itemComboBox;
 
@@ -107,9 +110,9 @@ public class PlaceOrderController implements Initializable {
             JasperReport compileReport = JasperCompileManager.compileReport(rpt);
             Map<String,Object> data = new HashMap<>();
             data.put("orderIdParam", lastId);
-            System.out.println(lastId);
             JasperPrint filledReport = JasperFillManager.fillReport(compileReport,data, DBConnection.getInstance().getConnection());
             JasperViewer.viewReport(filledReport,false);
+
         } catch (JRException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -118,6 +121,30 @@ public class PlaceOrderController implements Initializable {
     private JFXButton placeOrderBtn;
 
     private ObservableList<PlaceOrderTM> obList = FXCollections.observableArrayList();
+
+    private void setRemoveBtnOnAction(Button btn) {
+        btn.setOnAction((e) -> {
+            ButtonType yes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            Optional<ButtonType> result = new Alert(Alert.AlertType.INFORMATION, "Are you sure to remove?", yes, no).showAndWait();
+
+
+
+            if (result.orElse(no) == yes) {
+
+                TableCell buttonCell = (TableCell) ((Button) e.getSource()).getParent();
+                int index = buttonCell.getIndex();
+
+                obList.remove(index);
+
+                orderTable.refresh();
+                calculateNetTotal();
+            }
+
+        });
+    }
+
     @FXML
     void addBtnClick(ActionEvent event) {
 
@@ -133,6 +160,7 @@ public class PlaceOrderController implements Initializable {
         double unitPrice = Double.parseDouble(unitPriceLbl.getText());
         double total = qty * unitPrice;
         Button btnRemove = new Button("Remove");
+        setRemoveBtnOnAction(btnRemove);
         btnRemove.setCursor(Cursor.HAND);
 
 //        setRemoveBtnOnAction(btnRemove); /* set action to the btnRemove */
@@ -160,6 +188,8 @@ public class PlaceOrderController implements Initializable {
         calculateNetTotal();
 
         qtyField.setText("");
+        itemCodeForSearch.setText("");
+        itemCodeForSearch.requestFocus();
     }
 
     @FXML
@@ -180,6 +210,14 @@ public class PlaceOrderController implements Initializable {
             boolean isPlaced = OrderModel.placeOrder(oId, cusId, cartDTOList);
             if(isPlaced) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Order Placed!").show();
+                generateNextOrderId();
+                obList.clear();
+                orderTable.refresh();
+                itemNameLbl.setText("");
+                DescLbl.setText("");
+                unitPriceLbl.setText("");
+                cusCodeForSearch.requestFocus();
+
             } else {
                 new Alert(Alert.AlertType.ERROR, "Order Not Placed!").show();
             }
@@ -187,6 +225,7 @@ public class PlaceOrderController implements Initializable {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
         }
+
     }
 
     private void calculateNetTotal() {
@@ -201,6 +240,7 @@ public class PlaceOrderController implements Initializable {
     @FXML
     void combCusOnAction(ActionEvent event) {
 
+        itemCodeForSearch.requestFocus();
     }
 
     @FXML
@@ -219,14 +259,34 @@ public class PlaceOrderController implements Initializable {
 
     }
     private void fillItemFields(ItemDTO item) {
-        itemNameLbl.setText(item.getName());
-        DescLbl.setText(item.getDescription());
-        unitPriceLbl.setText(String.valueOf(item.getPrice()));
+       if(item != null){
+           itemNameLbl.setText(item.getName());
+           DescLbl.setText(item.getDescription());
+           unitPriceLbl.setText(String.valueOf(item.getPrice()));
+       }
     }
 
     @FXML
     void itemSearchFieldAction(ActionEvent event) {
 
+        try {
+            ObservableList<String> obList = FXCollections.observableArrayList();
+            List<String> codes = ItemModel.getCodes(itemCodeForSearch.getText());
+
+            for (String code : codes) {
+                obList.add(code);
+            }
+            if(obList.size() > 0){
+                itemComboBox.setItems(obList);
+            }else {
+                itemComboBox.setItems(null);
+            }
+            itemComboBox.requestFocus();
+            itemComboBox.show();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+        }
     }
 
     @FXML
@@ -252,6 +312,7 @@ public class PlaceOrderController implements Initializable {
         loadCustomerIds();
         loadItemCodes();
         generateNextOrderId();
+        cusCodeForSearch.requestFocus();
     }
 
     private void generateNextOrderId() {
@@ -309,6 +370,40 @@ public class PlaceOrderController implements Initializable {
         colItemAction.setCellValueFactory(new PropertyValueFactory<>("action"));
     }
 
-    public void allOrdersClick(ActionEvent actionEvent) {
+    public void allOrdersClick(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        Parent root  =  FXMLLoader.load(getClass().getResource("/view/all_orders_form.fxml"));
+        stage.setScene(new Scene(root));
+    }
+    public void cusSearchFieldAction(ActionEvent actionEvent) {
+        try {
+            List<String> ids = CustomerModel.getIds(cusCodeForSearch.getText());
+
+            ObservableList<String> obList = FXCollections.observableArrayList();
+
+            for (String id : ids) {
+                obList.add(id);
+            }
+
+            if(obList.size() > 0){
+                cusComboBox.setItems(obList);
+            }else {
+                cusComboBox.setItems(null);
+            }
+            cusComboBox.requestFocus();
+            cusComboBox.show();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "SQL Error!").show();
+        }
+    }
+
+    public void qtyOnAction(ActionEvent actionEvent) {
+        addBtnClick(actionEvent);
+
     }
 }

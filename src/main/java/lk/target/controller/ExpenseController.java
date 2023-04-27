@@ -111,8 +111,8 @@ public class ExpenseController implements Initializable {
             Boolean saved = ExpenseModel.save(expenseDTO);
             if (saved){
                 new Alert(Alert.AlertType.INFORMATION, "Expense Added!").show();
-//                getAllItems();
-//                itemTable.refresh();
+                getAllItems();
+                itemTable.refresh();
                 deleteBtn.setDisable(true);
 
 

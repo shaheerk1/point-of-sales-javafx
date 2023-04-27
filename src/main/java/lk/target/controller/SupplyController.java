@@ -275,5 +275,13 @@ public class SupplyController implements Initializable {
         colTot.setCellValueFactory(new PropertyValueFactory<>("total"));
         colItemAction.setCellValueFactory(new PropertyValueFactory<>("action"));
     }
+
+    public void allSuppliesClick(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        Parent root  =  FXMLLoader.load(getClass().getResource("/view/all_supplies_form.fxml"));
+        stage.setScene(new Scene(root));
+    }
 }
 

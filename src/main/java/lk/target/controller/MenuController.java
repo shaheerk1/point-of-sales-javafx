@@ -52,6 +52,7 @@ public class MenuController implements Initializable {
     @FXML
     void onDashBtn(ActionEvent event) throws IOException {
 
+
         Parent root  =  FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
         Scene scene = dashBtn.getScene();
 
@@ -59,7 +60,7 @@ public class MenuController implements Initializable {
         parentPane.getChildren().add(root);
         Timeline timeline = new Timeline();
         KeyValue kv= new KeyValue(root.translateYProperty(),0, Interpolator.EASE_IN);
-        KeyFrame kf = new KeyFrame(Duration.seconds(0.3),kv);
+        KeyFrame kf = new KeyFrame(Duration.seconds(0.4),kv);
         timeline.getKeyFrames().add(kf);
         timeline.setOnFinished(event2 ->{
             parentPane.getChildren().removeIf(node -> node != root);
@@ -133,6 +134,25 @@ public class MenuController implements Initializable {
 //            AnchorPane.setLeftAnchor(menuAnchorPane, 0.0);
 //            AnchorPane.setRightAnchor(menuAnchorPane, 0.0);
 //        });
+    }
+
+    @FXML
+    public void onAnalyticClick(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        Parent root  =  FXMLLoader.load(getClass().getResource("/view/analytic_form.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+    }
+
+    public void onStockClick(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        Parent root  =  FXMLLoader.load(getClass().getResource("/view/stock_form.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
     }
 
     private class MyKeyEventHandler implements EventHandler<KeyEvent> {
