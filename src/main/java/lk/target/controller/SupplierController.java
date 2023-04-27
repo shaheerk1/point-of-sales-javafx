@@ -2,25 +2,35 @@ package lk.target.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import lk.target.dto.CustomerDTO;
 import lk.target.dto.SupplierDTO;
+import lk.target.dto.tm.CustomerTM;
+import lk.target.dto.tm.SupplierTM;
 import lk.target.model.CustomerModel;
 import lk.target.model.SupplierModel;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
-public class SupplierController {
+public class SupplierController implements Initializable {
     @FXML
     private JFXTextField forSearch;
 
@@ -64,7 +74,7 @@ public class SupplierController {
     private JFXButton deleteBtn;
 
     @FXML
-    private TableView<?> itemTable;
+    private TableView<SupplierTM> itemTable;
 
     @FXML
     private TableColumn<?, ?> id;
@@ -293,4 +303,38 @@ public class SupplierController {
 
     }
 
+    private List<SupplierTM> cusList = new ArrayList<>();
+
+    private ObservableList<SupplierTM> obList = FXCollections.observableArrayList();
+    private void getAllItems() {
+        obList.clear();
+        try {
+            cusList = SupplierModel.getAll();
+            if (cusList.size() != 0){
+                for(SupplierTM supplierTM: cusList){
+                    obList.add(supplierTM);
+                    itemTable.setItems(obList);
+
+                }
+            }else {
+                //no Items in db
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Failed to get Suppliers from database!").show();
+        }
+    }
+
+    void setCellValueFactory() {
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        title.setCellValueFactory(new PropertyValueFactory<>("title"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        address.setCellValueFactory(new PropertyValueFactory<>("address"));
+        mobile.setCellValueFactory(new PropertyValueFactory<>("mobile"));
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        getAllItems();
+        setCellValueFactory();
+    }
 }

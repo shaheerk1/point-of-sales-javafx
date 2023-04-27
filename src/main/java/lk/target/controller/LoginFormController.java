@@ -1,5 +1,6 @@
 package lk.target.controller;
 
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,7 +28,7 @@ public class LoginFormController {
     private JFXTextField userNameField;
 
     @FXML
-    private JFXTextField passwordField;
+    private JFXPasswordField passwordField;
 
 
     public void initialize(){

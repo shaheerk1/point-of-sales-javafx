@@ -17,8 +17,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import lk.target.dto.ItemDTO;
 import lk.target.dto.SupplyDTO;
-import lk.target.dto.tm.CartDTO;
-import lk.target.dto.tm.PlaceOrderTM;
 import lk.target.dto.tm.SupplyTM;
 import lk.target.model.*;
 
@@ -276,6 +274,14 @@ public class SupplyController implements Initializable {
         colItemPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         colTot.setCellValueFactory(new PropertyValueFactory<>("total"));
         colItemAction.setCellValueFactory(new PropertyValueFactory<>("action"));
+    }
+
+    public void allSuppliesClick(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        Parent root  =  FXMLLoader.load(getClass().getResource("/view/all_supplies_form.fxml"));
+        stage.setScene(new Scene(root));
     }
 }
 

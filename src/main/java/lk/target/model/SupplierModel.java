@@ -2,6 +2,8 @@ package lk.target.model;
 
 import lk.target.dto.CustomerDTO;
 import lk.target.dto.SupplierDTO;
+import lk.target.dto.tm.CustomerTM;
+import lk.target.dto.tm.SupplierTM;
 import lk.target.util.CrudUtil;
 
 import java.sql.ResultSet;
@@ -87,5 +89,35 @@ public class SupplierModel {
 
         return CrudUtil.execute(sql, supplierDTO.getId(),supplierDTO.getTitle(),supplierDTO.getName(),supplierDTO.getAddress(),supplierDTO.getMobile(),supplierDTO.getCity(),supplierDTO.getProvince(),supplierDTO.getCountry());
 
+    }
+
+    public static List<SupplierTM> getAll() throws SQLException {
+        String sql = "SELECT * FROM Supplier";
+        ResultSet rs = CrudUtil.execute(sql);
+
+        List<SupplierTM> supList = new ArrayList<>();
+
+        while (rs.next()){
+            SupplierTM supplierTM = new SupplierTM(
+                    rs.getString(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(4),
+                    rs.getString(5)
+            );
+            supList.add(supplierTM);
+
+        }
+        return supList;
+    }
+
+    public static Integer getTotalCount() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM Supplier;";
+        ResultSet rs = CrudUtil.execute(sql);
+
+        if(rs.next()){
+            return rs.getInt(1);
+        }
+        return null;
     }
 }

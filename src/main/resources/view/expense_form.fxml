@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXTimePicker?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -148,7 +147,6 @@
                                                       <Insets left="15.0" />
                                                    </padding>
                                                 </JFXTextField>
-                                                <JFXTimePicker fx:id="timePicker" prefHeight="121.0" prefWidth="463.0" GridPane.columnIndex="2" />
                                              </children>
                                           </GridPane>
                                           <GridPane hgap="10.0" GridPane.rowIndex="2">
@@ -213,17 +211,17 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <JFXButton fx:id="addBtn" disable="true" onAction="#addBtnClick" prefHeight="93.0" prefWidth="414.0" style="-fx-background-color: #1CA1F0;" text="ADD" textFill="WHITE" GridPane.columnIndex="3">
+                                          <JFXButton fx:id="addBtn" onAction="#addBtnClick" prefHeight="93.0" prefWidth="414.0" style="-fx-background-color: #1CA1F0;" text="ADD" textFill="WHITE" GridPane.columnIndex="3">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton fx:id="updateBtn" disable="true" onAction="#updBtnClick" prefHeight="95.0" prefWidth="197.0" style="-fx-background-color: #6C707B;" text="Edit" textFill="WHITE" GridPane.columnIndex="2">
+                                          <JFXButton fx:id="updateBtn" onAction="#updBtnClick" prefHeight="95.0" prefWidth="197.0" style="-fx-background-color: #6C707B;" text="Edit" textFill="WHITE" GridPane.columnIndex="2">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton fx:id="deleteBtn" contentDisplay="CENTER" disable="true" onAction="#onDeleteClick" prefHeight="46.0" prefWidth="65.0" style="-fx-background-color: #EE5C45;" GridPane.columnIndex="1">
+                                          <JFXButton fx:id="deleteBtn" contentDisplay="CENTER" onAction="#onDeleteClick" prefHeight="46.0" prefWidth="65.0" style="-fx-background-color: #EE5C45;" GridPane.columnIndex="1">
                                              <graphic>
                                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -246,9 +244,10 @@
                       <TableColumn fx:id="descCol" prefWidth="273.0" text="description" />
                         <TableColumn fx:id="amountCol" prefWidth="123.0" text="amount" />
                         <TableColumn fx:id="timeCol" prefWidth="231.0" text="time" />
-                        <TableColumn fx:id="itemCodeCol" prefWidth="181.0" text="itemCode" />
-                        <TableColumn fx:id="supCol" prefWidth="161.0" text="supply" />
-                        <TableColumn fx:id="returnCol" prefWidth="144.0" text="return" />
+                        <TableColumn fx:id="typeCol" prefWidth="115.0" text="type" />
+                        <TableColumn fx:id="itemCodeCol" prefWidth="111.0" text="item" />
+                        <TableColumn fx:id="supCol" prefWidth="116.0" text="supply" />
+                        <TableColumn fx:id="returnCol" prefWidth="115.0" text="return" />
                     </columns>
                      <GridPane.margin>
                         <Insets bottom="10.0" left="20.0" right="20.0" top="5.0" />

@@ -1,14 +1,11 @@
 package lk.target.model;
 
-import lk.target.db.DBConnection;
 import lk.target.dto.ItemDTO;
 import lk.target.dto.SupplyDTO;
-import lk.target.dto.tm.CartDTO;
+import lk.target.dto.CartDTO;
 import lk.target.dto.tm.ItemTM;
 import lk.target.util.CrudUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -54,7 +51,7 @@ public class ItemModel {
 
             return "P0"+id;
         }
-        return "O001";
+        return "P001";
     }
 
     public static Boolean saveItem(ItemDTO itemDTO) throws SQLException {
@@ -127,8 +124,8 @@ public class ItemModel {
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),
-                    resultSet.getInt(4),
-                    resultSet.getDouble(5)
+                    resultSet.getInt(5),
+                    resultSet.getDouble(4)
             );
         }
         return null;
@@ -163,5 +160,19 @@ public class ItemModel {
 
         return CrudUtil.execute(sql,dto.getQty(),dto.getCode());
 
+    }
+
+    public static List<String> getCodes(String text) throws SQLException {
+
+        List<String> codes = new ArrayList<>();
+
+        String sql = "SELECT ItemCode FROM Item WHERE Name LIKE ?";
+
+        text = "%"+text+"%";
+        ResultSet resultSet =CrudUtil.execute(sql,text);
+        while(resultSet.next()) {
+            codes.add(resultSet.getString(1));
+        }
+        return codes;
     }
 }

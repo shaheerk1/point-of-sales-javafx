@@ -3,6 +3,8 @@ package lk.target.model;
 import lk.target.db.DBConnection;
 import lk.target.dto.CustomerDTO;
 import lk.target.dto.ItemDTO;
+import lk.target.dto.tm.CustomerTM;
+import lk.target.dto.tm.ItemTM;
 import lk.target.util.CrudUtil;
 
 import java.sql.Connection;
@@ -86,5 +88,50 @@ public class CustomerModel {
 
 
         return CrudUtil.execute(sql,text);
+    }
+
+    public static List<CustomerTM> getAll() throws SQLException {
+        String sql = "SELECT * FROM Customer";
+        ResultSet rs = CrudUtil.execute(sql);
+
+        List<CustomerTM> cusList = new ArrayList<>();
+
+        while (rs.next()){
+            CustomerTM customerTM = new CustomerTM(
+                    rs.getString(1),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(5),
+                    rs.getString(4)
+            );
+            cusList.add(customerTM);
+
+        }
+        return cusList;
+    }
+
+    public static List<String> getIds(String text) throws SQLException {
+        String sql = "SELECT CustID FROM Customer WHERE CustName LIKE ?";
+
+        text = "%"+text+"%";
+
+        List<String> ids = new ArrayList<>();
+
+        ResultSet resultSet = CrudUtil.execute(sql, text);
+        while (resultSet.next()) {
+            ids.add(resultSet.getString(1));
+        }
+        return ids;
+    }
+
+    public static Integer getTotalCustomers() throws SQLException {
+
+        String sql = "SELECT COUNT(*) FROM Customer;";
+        ResultSet rs = CrudUtil.execute(sql);
+
+        if(rs.next()){
+            return rs.getInt(1);
+        }
+        return null;
     }
 }

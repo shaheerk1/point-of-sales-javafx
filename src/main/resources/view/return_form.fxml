@@ -133,7 +133,7 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <JFXButton fx:id="addBtn" onAction="#addBtnClick" prefHeight="93.0" prefWidth="414.0" style="-fx-background-color: #1CA1F0;" text="ADD" textFill="WHITE" GridPane.columnIndex="3">
+                                          <JFXButton fx:id="addBtn" onAction="#addBtnClick" prefHeight="93.0" prefWidth="414.0" style="-fx-background-color: #1CA1F0;" text="ADD RETURN" textFill="WHITE" GridPane.columnIndex="3">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -190,7 +190,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </JFXTextField>
-                                    <JFXTextField fx:id="orderIdField" prefHeight="151.0" prefWidth="140.0" promptText="Qty" text="Oder ID" GridPane.columnIndex="2">
+                                    <JFXTextField fx:id="orderIdField" prefHeight="151.0" prefWidth="140.0" promptText="Oder ID" GridPane.columnIndex="2">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -206,11 +206,11 @@
                   </AnchorPane>
                   <TableView fx:id="orderTable" prefHeight="200.0" prefWidth="200.0" styleClass="itemTable" stylesheets="@../style/TableStyles.css" GridPane.rowIndex="1">
                     <columns>
-                      <TableColumn fx:id="colItemCode" prefWidth="97.0" text="id" />
-                      <TableColumn fx:id="colItemName" prefWidth="273.0" text="itemCode" />
-                        <TableColumn fx:id="colItemDescription" prefWidth="253.0" text="orderId" />
+                      <TableColumn fx:id="colID" prefWidth="97.0" text="id" />
+                      <TableColumn fx:id="colItemCode" prefWidth="273.0" text="itemCode" />
+                        <TableColumn fx:id="colOrderId" prefWidth="253.0" text="orderId" />
                         <TableColumn fx:id="colItemQty" prefWidth="171.0" text="qty" />
-                        <TableColumn fx:id="colItemPrice" prefWidth="263.0" text="time" />
+                        <TableColumn fx:id="colTime" prefWidth="263.0" text="time" />
                         <TableColumn fx:id="colItemAction" prefWidth="153.0" text="action" />
                     </columns>
                      <GridPane.margin>
@@ -236,11 +236,6 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXButton fx:id="placeOrderBtn" onAction="#btnPlaceOrderOnAction" prefHeight="107.0" prefWidth="450.0" style="-fx-background-color: green;" text="ADD RETURN" textFill="WHITE" GridPane.columnIndex="3">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </JFXButton>
                      </children>
                   </GridPane>
                </children>
